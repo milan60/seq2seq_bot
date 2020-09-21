@@ -27,8 +27,8 @@ MAX_INPUT_SEQ_LENGTH = 17
 MAX_TARGET_SEQ_LENGTH = 24
 MAX_VOCAB_SIZE = 2000
 
-questions = 'data/Q1.csv'
-answers = 'data/Q2.csv'
+TRAINING_DATA = 'data/data.csv'
+
 WEIGHT_FILE_PATH = 'model/word-weights.h5'
 
 input_counter = Counter()
@@ -37,12 +37,20 @@ target_counter = Counter()
 input_texts = []
 target_texts = []
 
-# loading data
-with open('data/Q1.csv', 'r', encoding='utf8') as f:
-    questions = f.read().split('\n')
+questions = []
+answers = []
+
+with open(TRAINING_DATA) as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',', quotechar='\"')
     
-with open('data/Q2.csv', 'r', encoding='utf8') as f:
-    answers = f.read().split('\n')
+    line_count = 0
+    for row in csv_reader:
+        if line_count == 0:
+            line_count += 1
+        else:
+            questions.append(row[0])
+            answers.append(row[1])
+
 
 
 prev_words = []
